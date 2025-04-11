@@ -37,9 +37,9 @@ const colorMode = computed({
 
   <br >
 
-  <el-button :icon="ElIconView" class="m-4" @click="hello">Hello</el-button>
-  <el-button class="m-4" type="primary" @click="hello">Hello</el-button>
-  <el-button class="m-4" type="success" @click="helloSuccess">Hello</el-button>
+  <el-button :icon="ElIconView" class="m-4" @click="hello">Hello1</el-button>
+  <el-button class="m-4" type="primary" @click="hello">Hello2</el-button>
+  <el-button class="m-4" type="success" @click="helloSuccess">Hello3</el-button>
 
   <br >
 

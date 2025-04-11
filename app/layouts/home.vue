@@ -4,7 +4,7 @@
 
     <slot />
     <div class="mx-auto mt-5 text-center text-sm opacity-25">
-      [Home Layout]
+      Copyright © 2025 by BBT-SG. All Rights Reserved. 
     </div>
   </main>
 </template>
