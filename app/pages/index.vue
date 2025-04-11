@@ -503,7 +503,7 @@ const Bottleneck = (cb: () => void) => {
 };
 
 
-function confirm_answer() {
+function confirm_answer(answer: number | null) {
   Bottleneck(() => {
     if (show_answers.value[current_question.value]) {
       ElMessage({
@@ -514,11 +514,15 @@ function confirm_answer() {
     }
     console.log(`user answer: ${user_answers.value[current_question.value]},`)
     if (user_answers.value[current_question.value] == -1) {
-      ElMessage({
-        message: 'empty answer',
-        type: 'warning',
-      })
-      return
+      if (answer != null) {
+        user_answers.value[current_question.value] = answer
+      } else {
+        ElMessage({
+          message: 'empty answer',
+          type: 'warning',
+        })
+        return
+      }
     }
 
     show_answers.value[current_question.value] = true
@@ -563,7 +567,7 @@ onMounted(() => {
 <template>
 
 
-  <el-card style="max-width: 700px" shadow="never">
+  <el-card style="max-width: 700px" shadow="never" class="el-card-global">
     <template #header>
       <Description />
       <el-row :gutter="20">
@@ -595,18 +599,18 @@ v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/')
 
 
 
-    <div v-for="(o, idx) in q?.answers" :key="idx" align="left">
+    <div v-for="(o, idx) in q?.answers" :key="idx" align="left" style="padding-top: 5px">
       <el-row :gutter="24">
-        <el-col :span="4">
+        <el-col :span="5">
           <el-radio
-v-model="user_answers[current_question]" :disabled="user_answers[current_question] != -1"
-            :value="idx" size="large" @change="confirm_answer">{{
+v-model="user_answers[current_question]" border :disabled="user_answers[current_question] != -1"
+            :value="idx" size="default" @change="confirm_answer(null)">{{
               idx +
               1 + ". "
             }}
           </el-radio>
         </el-col>
-        <el-col border :span="14">
+        <el-col border :span="14" @click="confirm_answer(idx)">
           <el-text
 :type="!show_answers[current_question] ? '' :
             q?.answer_idx == idx ?
@@ -663,5 +667,9 @@ v-if="!_auto_confirm" type="primary" style="margin: 0 auto"
 <style>
 body {
   overflow-x: hidden;
+}
+
+.el-card-global {
+  padding-left: 0;
 }
 </style>
