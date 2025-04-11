@@ -633,16 +633,15 @@ v-if="!_auto_confirm" type="primary" style="margin-left: 10px;"
       <el-button style="margin-top: 12px" @click="next">Next Question</el-button>
 
       <el-progress
-:percentage="100 * (current_question / questions.length)" :color="customColor" :format="format"
-        style="padding-top: 10px;max-width: 800px" />
+:percentage="100 * (current_question+1 / questions.length)" :color="customColor" :format="format"
+        style="padding-top: 10px;max-width: 800px;margin: auto" />
 
 
 
-      <el-steps style="max-width: 800px" :active="current_question">
+      <el-steps style="max-width: 800px;margin: auto" :active="current_question">
         <el-step
 v-for="(ans, idx) in user_answers" :key="idx"
-          :status="user_answers[idx] == -1 ? 'wait' : user_answers[idx] != questions[idx].answer_idx ? 'error' : 'success'" />
-
+          :status="user_answers[idx] == -1 ? 'wait' : user_answers[idx] != questions.at(idx)?.answer_idx ? 'error' : 'success'" />
       </el-steps>
 
     </el-main>
