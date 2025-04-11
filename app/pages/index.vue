@@ -562,20 +562,26 @@ onMounted(() => {
 
 <template>
 
-  <div>
-    <Description />
-    <el-row :gutter="20">
-      <el-col :span="6">
-        <el-switch v-model="_auto_confirm" size="large" active-text="Auto Confirm" @click="auto_confirm" />
 
-      </el-col>
-      <el-col :span="18">
-        <el-switch
+  <el-card style="max-width: 700px" shadow="never">
+    <template #header>
+      <Description />
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-switch v-model="_auto_confirm" size="large" active-text="Auto Confirm" @click="auto_confirm" />
+
+        </el-col>
+        <el-col :span="18">
+          <el-switch
 v-model="_auto_next" size="large" active-text="Auto Next" style="padding-left: 10px;"
-          @click="auto_next" />
-      </el-col>
+            @click="auto_next" />
+        </el-col>
 
-    </el-row>
+      </el-row>
+    </template>
+
+
+    <!-- <p v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</p> -->
 
     <img
 v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/'))"
@@ -586,6 +592,7 @@ v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/')
     <el-text size="large">{{"Q" + (current_question + 1) + '.' + q?.question.filter((item) => typeof item
       === "string" &&
       !item.startsWith("/")).join("\n")}}</el-text>
+
 
 
     <div v-for="(o, idx) in q?.answers" :key="idx" align="left">
@@ -615,25 +622,46 @@ v-if="o.some((item) => typeof item == 'string' && item.startsWith('/'))"
         </el-col>
       </el-row>
     </div>
-    <div>
-
-      Please chooes the correct answer
-      <el-button
-v-if="!_auto_confirm" type="primary" style="margin-left: 10px;"
-        @click="confirm_answer">Confirm</el-button>
-    </div>
 
 
+    <template #footer>
+      <el-col>
+        <el-row>
 
-    <el-button style="margin-top: 12px" @click="last">Last Question</el-button>
-    <el-button style="margin-top: 12px" @click="next">Next Question</el-button>
+          <el-text class="mx-1" size="small" type="primary" style="margin: 0 auto"> Please chooes the correct
+            answer</el-text>
+        </el-row>
+        <el-row>
+          <el-button
+v-if="!_auto_confirm" type="primary" style="margin: 0 auto"
+            @click="confirm_answer">Confirm</el-button>
 
-    <el-progress
+        </el-row>
+      </el-col>
+
+
+
+
+      <el-button style="margin-top: 12px" @click="last">Last Question</el-button>
+      <el-button style="margin-top: 12px" @click="next">Next Question</el-button>
+
+      <el-progress
 :percentage="100 * (current_question / questions.length)" :color="customColor" :format="format"
-      style="padding-top: 10px;max-width: 800px;margin: auto" />
+        style="padding-top: 10px;max-width: 800px;margin: auto" />
+
+    </template>
+
+  </el-card>
 
 
-  </div>
+
+
+
+
 </template>
 
-<style></style>
+<style>
+body {
+  overflow-x: hidden;
+}
+</style>
