@@ -4,5 +4,6 @@
     "language": "Language",
     "button.color_mode": "Color Mode",
     "text.practice_mode": "Practice Mode",
-    "text.mock_test_mode": "Mode Test"
+    "text.mock_test_mode": "Mode Test",
+    "_.empty_str": ""
 }

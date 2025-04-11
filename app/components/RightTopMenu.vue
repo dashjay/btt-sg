@@ -28,11 +28,11 @@ const showLabel = ref(false)
 
 function switchLabelSow() {
   if (showLabel.value) {
-    DarkToggleLabel.value = ''
-    GitHubLinkLabel.value = ''
-    PracticeLabel.value = ''
-    MockTestLabel.value = ''
-    LanguageLabel.value = ''
+    DarkToggleLabel.value = "_.empty_str"
+    GitHubLinkLabel.value = "_.empty_str"
+    PracticeLabel.value = "_.empty_str"
+    MockTestLabel.value = "_.empty_str"
+    LanguageLabel.value = "_.empty_str"
     showLabel.value = false
   } else {
     DarkToggleLabel.value = "button.color_mode"
