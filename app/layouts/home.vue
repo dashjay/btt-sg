@@ -20,7 +20,7 @@ const isSmallWidth = ref(false)
 onMounted(() => {
   window.onresize = () => {
     return (() => {
-      console.log(window.innerWidth)
+
       isSmallWidth.value = (window.innerWidth < 800)
     })();
   };

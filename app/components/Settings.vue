@@ -35,10 +35,5 @@
 import {
   Setting,
   ArrowDown,
-  Check,
-  CircleCheck,
-  CirclePlus,
-  CirclePlusFilled,
-  Plus
 } from '@element-plus/icons-vue'
 </script>
