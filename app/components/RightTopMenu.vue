@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center items-center gap-4 text-base">
     <el-icon>
-      <QuestionFilled style="cursor: pointer" @click="switchLabelSow" />
+      <QuestionFilled style="cursor: pointer" @click="showLabels" />
     </el-icon>
     <DarkToggle :label="$t(DarkToggleLabel)" />
     <GitHubLink :label="$t(GitHubLinkLabel)" />
@@ -24,24 +24,26 @@ const MockTestLabel = ref('')
 const LanguageLabel = ref('')
 
 
-const showLabel = ref(false)
 
-function switchLabelSow() {
-  if (showLabel.value) {
-    DarkToggleLabel.value = "_.empty_str"
-    GitHubLinkLabel.value = "_.empty_str"
-    PracticeLabel.value = "_.empty_str"
-    MockTestLabel.value = "_.empty_str"
-    LanguageLabel.value = "_.empty_str"
-    showLabel.value = false
-  } else {
-    DarkToggleLabel.value = "button.color_mode"
-    GitHubLinkLabel.value = "Github"
-    PracticeLabel.value = "text.practice_mode"
-    MockTestLabel.value = "text.mock_test_mode"
-    LanguageLabel.value = "language"
-    showLabel.value = true
-  }
+function showLabels() {
+  DarkToggleLabel.value = "button.color_mode"
+  GitHubLinkLabel.value = "Github"
+  PracticeLabel.value = "text.practice_mode"
+  MockTestLabel.value = "text.mock_test_mode"
+  LanguageLabel.value = "language"
+
+
+  setTimeout(() => {
+    hideLabels()
+  }, 2000);
+}
+
+function hideLabels() {
+  DarkToggleLabel.value = "_.empty_str"
+  GitHubLinkLabel.value = "_.empty_str"
+  PracticeLabel.value = "_.empty_str"
+  MockTestLabel.value = "_.empty_str"
+  LanguageLabel.value = "_.empty_str"
 }
 
 </script>
