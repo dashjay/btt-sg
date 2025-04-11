@@ -1,5 +1,8 @@
 {
     "mode": "Mode: ",
     "text.finished": "finished",
-    "language": "Language"
+    "language": "Language",
+    "button.color_mode": "Color Mode",
+    "text.practice_mode": "Practice Mode",
+    "text.mock_test_mode": "Mode Test"
 }

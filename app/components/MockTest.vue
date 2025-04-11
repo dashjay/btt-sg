@@ -1,6 +1,13 @@
 <script setup lang="ts">
 
 import { Select } from '@element-plus/icons-vue'
+import { defineProps } from 'vue';
+
+interface Props {
+  label?: string;
+}
+
+const props = defineProps<Props>();
 
 const color = useColorMode()
 
@@ -20,9 +27,9 @@ function toggleDark() {
 <template>
 
 
-  <el-tooltip class="box-item" effect="dark" content="MockTestMode" placement="bottom-start">
-    <button class="inline-flex justify-center items-center" @click="toggleDark">
-      <el-icon><Select /></el-icon>
-    </button>
-  </el-tooltip>
+  <button class="inline-flex justify-center items-center" @click="toggleDark">
+    <el-icon><Select /></el-icon>
+    <el-text v-if="props.label !== ''"> {{ props.label }}</el-text>
+  </button>
+
 </template>

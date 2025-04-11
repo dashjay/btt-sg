@@ -1,23 +1,23 @@
 <template>
 
 
-  <el-dropdown placement="bottom">
+  <el-dropdown placement="bottom" trigger="click">
     <button class="inline-flex justify-center items-center">
       <el-icon>
         <Orange />
       </el-icon>
+      <el-text v-if="props.label !== ''"> {{ props.label }}</el-text>
     </button>
-    <template #dropdown>
 
-      <form>
-          <select id="locale-select" v-model="$i18n.locale">
-            <option value="en">en</option>
-            <option value="fr">fr</option>
-            <option value="ja">ja</option>
-            <option value="zhcn">zh-cn</option>
-            <option value="zhtw">zh-tw</option>
-          </select>
-        </form>
+    <template #dropdown>
+      <el-select v-model="$i18n.locale" placeholder="Select" size="large" style="width: 240px">
+        <el-option label="en" value="en">en</el-option>
+        <el-option label="fr" value="fr">fr</el-option>
+        <el-option label="ja" value="ja">ja</el-option>
+        <el-option label="zhcn" value="zhcn">zh-cn</el-option>
+        <el-option label="zhtw" value="zhtw">zh-tw</el-option> 
+      </el-select>
+
     </template>
   </el-dropdown>
 
@@ -26,5 +26,12 @@
 
 <script lang="ts" setup>
 import { Orange } from '@element-plus/icons-vue'
+import { defineProps } from 'vue';
+
+interface Props {
+  label?: string;
+}
+
+const props = defineProps<Props>();
 
 </script>

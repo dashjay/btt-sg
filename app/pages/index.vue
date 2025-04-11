@@ -503,6 +503,10 @@ const Bottleneck = (cb: () => void) => {
 };
 
 
+function update_answer(answer: number) {
+  user_answers.value[current_question.value] = answer
+}
+
 function confirm_answer(answer: number | null) {
   Bottleneck(() => {
     if (show_answers.value[current_question.value]) {
@@ -562,6 +566,9 @@ onMounted(() => {
   }
 })
 
+
+const options = ['A.', 'B.', 'C.', 'D.']
+
 </script>
 
 <template>
@@ -603,14 +610,26 @@ v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/')
       <el-row :gutter="24">
         <el-col :span="5">
           <el-radio
-v-model="user_answers[current_question]" border :disabled="user_answers[current_question] != -1"
-            :value="idx" size="default" @change="confirm_answer(null)">{{
-              idx +
-              1 + ". "
+v-model="user_answers[current_question]" border :disabled="show_answers[current_question]"
+            :value="idx" size="default" @change="() => {
+              if (_auto_confirm) {
+                confirm_answer(idx)
+              } else {
+                update_answer(idx)
+              }
+            }">{{
+              options[idx]
             }}
           </el-radio>
         </el-col>
-        <el-col border :span="14" @click="confirm_answer(idx)">
+        <el-col
+border :span="14" @click="() => {
+          if (_auto_confirm) {
+            confirm_answer(idx)
+          } else {
+            update_answer(idx)
+          }
+        }">
           <el-text
 :type="!show_answers[current_question] ? '' :
             q?.answer_idx == idx ?
@@ -632,8 +651,8 @@ v-if="o.some((item) => typeof item == 'string' && item.startsWith('/'))"
       <el-col>
         <el-row>
 
-          <el-text class="mx-1" size="small" type="primary" style="margin: 0 auto"> Please chooes the correct
-            answer</el-text>
+          <!-- <el-text class="mx-1" size="small" type="primary" style="margin: 0 auto"> Please chooes the correct
+            answer</el-text> -->
         </el-row>
         <el-row>
           <el-button
@@ -646,8 +665,8 @@ v-if="!_auto_confirm" type="primary" style="margin: 0 auto"
 
 
 
-      <el-button style="margin-top: 12px" @click="last">Last Question</el-button>
-      <el-button style="margin-top: 12px" @click="next">Next Question</el-button>
+      <el-button style="margin-top: 12px" @click="last">Prev</el-button>
+      <el-button style="margin-top: 12px" @click="next">Next </el-button>
 
       <el-progress
 :percentage="100 * (current_question / questions.length)" :color="customColor" :format="format"

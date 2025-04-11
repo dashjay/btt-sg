@@ -1,6 +1,13 @@
 <script setup lang="ts">
-const color = useColorMode()
 
+import { defineProps } from 'vue';
+
+interface Props {
+  label?: string;
+}
+const props = defineProps<Props>();
+
+const color = useColorMode()
 useHead({
   meta: [{
     id: 'theme-color',
@@ -16,6 +23,6 @@ function toggleDark() {
 
 <template>
   <button class="inline-flex justify-center items-center" @click="toggleDark">
-    <div class="i-ri-sun-line dark:i-ri-moon-line" />
+    <div class="i-ri-sun-line dark:i-ri-moon-line" /> <el-text v-if="props.label !== ''"> {{ props.label }}</el-text>
   </button>
 </template>
