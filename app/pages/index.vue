@@ -438,15 +438,21 @@ const questions = [
 ]
 
 const config_auto_confirm_key = 'config.auto-confirm'
+const config_auto_next_key = 'config.auto-next'
 const current_question = ref(0)
 
 const q = computed(() => {
   return questions[current_question.value]
 })
 
-const auto_confirm = ref(false)
-const auto_confirm_change = () => {
-  localStorage.setItem(config_auto_confirm_key, `${auto_confirm.value}`)
+const _auto_confirm = ref(false)
+const _auto_next = ref(false)
+const auto_confirm = () => {
+  localStorage.setItem(config_auto_confirm_key, `${_auto_confirm.value}`)
+}
+
+const auto_next = () => {
+  localStorage.setItem(config_auto_next_key, `${_auto_next.value}`)
 }
 
 
@@ -521,13 +527,18 @@ function confirm_answer() {
         message: 'correct !',
         type: 'success',
       })
+      setTimeout(() => {
+        if (_auto_next.value) {
+          next()
+        }
+      }, 1000);
+
     } else {
       ElMessage({
         message: 'wrong answer !',
         type: 'warning',
       })
     }
-
   })
 }
 
@@ -537,9 +548,13 @@ onMounted(() => {
     user_answers.value.push(-1)
     show_answers.value.push(false)
   }
-  const v = localStorage.getItem(config_auto_confirm_key)
-  if (v && v == 'true') {
-    auto_confirm.value = true
+  const ac = localStorage.getItem(config_auto_confirm_key)
+  if (ac && ac == 'true') {
+    _auto_confirm.value = true
+  }
+  const an = localStorage.getItem(config_auto_next_key)
+  if (an && an == 'true') {
+    _auto_next.value = true
   }
 })
 
@@ -549,13 +564,17 @@ onMounted(() => {
   <el-container>
     <el-header>
       <Description />
+      <el-switch v-model="_auto_confirm" size="large" active-text="Auto Confirm" @click="auto_confirm" />
+      <el-switch
+v-model="_auto_next" size="large" active-text="Auto Next" style="padding-left: 20px;"
+        @click="auto_next" />
     </el-header>
 
     <el-main style="padding-top: 80px;">
 
-      <el-switch v-model="auto_confirm" size="large" active-text="Auto Confirm" @click="auto_confirm_change" />
 
-      <el-card style="max-width: 600px">
+
+      <el-card style="max-width: 700px; margin: auto">
         <template #header>
           <el-row :gutter="20">
             <el-col :span="6">
@@ -568,6 +587,7 @@ v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/')
               <span> {{q?.question.filter((item) => typeof item === "string" && !item.startsWith("/")).join("\n")}}
               </span>
             </el-col>
+
           </el-row>
 
 
@@ -602,7 +622,7 @@ v-if="o.some((item) => typeof item == 'string' && item.startsWith('/'))"
         <template #footer>
           Please chooes the correct answer
           <el-button
-v-if="!auto_confirm" type="primary" style="margin-left: 10px;"
+v-if="!_auto_confirm" type="primary" style="margin-left: 10px;"
             @click="confirm_answer">Confirm</el-button>
         </template>
       </el-card>
@@ -614,7 +634,16 @@ v-if="!auto_confirm" type="primary" style="margin-left: 10px;"
 
       <el-progress
 :percentage="100 * (current_question / questions.length)" :color="customColor" :format="format"
-        style="padding-top: 10px" />
+        style="padding-top: 10px;max-width: 800px" />
+
+
+
+      <el-steps style="max-width: 800px" :active="current_question">
+        <el-step
+v-for="(ans, idx) in user_answers" :key="idx"
+          :status="user_answers[idx] == -1 ? 'wait' : user_answers[idx] != questions[idx].answer_idx ? 'error' : 'success'" />
+
+      </el-steps>
 
     </el-main>
   </el-container>
