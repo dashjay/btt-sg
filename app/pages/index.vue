@@ -657,7 +657,7 @@ v-if="o.some((item) => typeof item == 'string' && item.startsWith('/'))"
         <el-row>
           <el-button
 v-if="!_auto_confirm" type="primary" style="margin: 0 auto"
-            @click="confirm_answer">Confirm</el-button>
+            @click="confirm_answer(null)">Confirm</el-button>
 
         </el-row>
       </el-col>
