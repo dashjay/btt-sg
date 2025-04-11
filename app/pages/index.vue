@@ -476,7 +476,7 @@ const user_answers = ref<number[]>([])
 const show_answers = ref<boolean[]>([])
 
 
-const format = () => (`${current_question.value}/${questions.length}`)
+const format = () => (`${current_question.value + 1}/${questions.length}`)
 
 const customColor = ref('#409eff')
 
@@ -561,91 +561,79 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-container>
-    <el-header>
-      <Description />
-      <el-switch v-model="_auto_confirm" size="large" active-text="Auto Confirm" @click="auto_confirm" />
-      <el-switch
-v-model="_auto_next" size="large" active-text="Auto Next" style="padding-left: 20px;"
-        @click="auto_next" />
-    </el-header>
 
-    <el-main style="padding-top: 80px;">
+  <div>
+    <Description />
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-switch v-model="_auto_confirm" size="large" active-text="Auto Confirm" @click="auto_confirm" />
 
+      </el-col>
+      <el-col :span="18">
+        <el-switch
+v-model="_auto_next" size="large" active-text="Auto Next" style="padding-left: 10px;"
+          @click="auto_next" />
+      </el-col>
 
+    </el-row>
 
-      <el-card style="max-width: 700px; margin: auto">
-        <template #header>
-          <el-row :gutter="20">
-            <el-col :span="6">
-              <img
+    <img
 v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/'))"
-                :src="'https://www.tptest.sg' + (q?.question.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
-                style="width: 100%">
-            </el-col>
-            <el-col :span="14" style="align-content: center;">
-              <span> {{q?.question.filter((item) => typeof item === "string" && !item.startsWith("/")).join("\n")}}
-              </span>
-            </el-col>
+      :src="'https://www.tptest.sg' + (q?.question.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
+      style="width: 100%">
+    <!-- <el-card style="max-width: 700px; margin: auto"> -->
 
-          </el-row>
+    <el-text size="large">{{"Q" + (current_question + 1) + '.' + q?.question.filter((item) => typeof item
+      === "string" &&
+      !item.startsWith("/")).join("\n")}}</el-text>
 
 
-        </template>
-
-        <div v-for="(o, idx) in q?.answers" :key="idx" align="left">
-          <el-row :gutter="24">
-            <el-col :span="4">
-              <el-radio
+    <div v-for="(o, idx) in q?.answers" :key="idx" align="left">
+      <el-row :gutter="24">
+        <el-col :span="4">
+          <el-radio
 v-model="user_answers[current_question]" :disabled="user_answers[current_question] != -1"
-                :value="idx" size="large" border @change="confirm_answer">{{
-                  idx +
-                  1 + ". "
-                }}
-              </el-radio>
-            </el-col>
-            <el-col
-:span="14"
-              :style="!show_answers[current_question] ? '' :
-                q?.answer_idx == idx ?
-                  'background-color: rgb(179, 224.5, 156.5)' : user_answers[current_question] != q?.answer_idx ? 'background-color: rgb(196, 86.4, 86.4)' : ''">
-              {{o.filter((item) => typeof item === "string" && !item.startsWith("/")).join("\n")}}
-            </el-col>
-            <el-col :span="6">
-              <img
+            :value="idx" size="large" @change="confirm_answer">{{
+              idx +
+              1 + ". "
+            }}
+          </el-radio>
+        </el-col>
+        <el-col border :span="14">
+          <el-text
+:type="!show_answers[current_question] ? '' :
+            q?.answer_idx == idx ?
+              'success' : user_answers[current_question] != q?.answer_idx ? 'danger' : ''">
+            {{o.filter((item) => typeof item === "string" && !item.startsWith("/")).join("\n")}}
+          </el-text>
+        </el-col>
+        <el-col :span="6">
+          <img
 v-if="o.some((item) => typeof item == 'string' && item.startsWith('/'))"
-                :src="'https://www.tptest.sg' + (o.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
-                style="width: 100%">
-            </el-col>
-          </el-row>
-        </div>
-        <template #footer>
-          Please chooes the correct answer
-          <el-button
+            :src="'https://www.tptest.sg' + (o.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
+            style="width: 100%">
+        </el-col>
+      </el-row>
+    </div>
+    <div>
+
+      Please chooes the correct answer
+      <el-button
 v-if="!_auto_confirm" type="primary" style="margin-left: 10px;"
-            @click="confirm_answer">Confirm</el-button>
-        </template>
-      </el-card>
+        @click="confirm_answer">Confirm</el-button>
+    </div>
 
 
 
-      <el-button style="margin-top: 12px" @click="last">Last Question</el-button>
-      <el-button style="margin-top: 12px" @click="next">Next Question</el-button>
+    <el-button style="margin-top: 12px" @click="last">Last Question</el-button>
+    <el-button style="margin-top: 12px" @click="next">Next Question</el-button>
 
-      <el-progress
-:percentage="100 * (current_question+1 / questions.length)" :color="customColor" :format="format"
-        style="padding-top: 10px;max-width: 800px;margin: auto" />
+    <el-progress
+:percentage="100 * (current_question / questions.length)" :color="customColor" :format="format"
+      style="padding-top: 10px;max-width: 800px;margin: auto" />
 
 
-
-      <el-steps style="max-width: 800px;margin: auto" :active="current_question">
-        <el-step
-v-for="(ans, idx) in user_answers" :key="idx"
-          :status="user_answers[idx] == -1 ? 'wait' : user_answers[idx] != questions.at(idx)?.answer_idx ? 'error' : 'success'" />
-      </el-steps>
-
-    </el-main>
-  </el-container>
+  </div>
 </template>
 
 <style></style>
