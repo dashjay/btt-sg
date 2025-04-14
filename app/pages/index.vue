@@ -592,17 +592,15 @@ v-model="_auto_next" size="large" active-text="Auto Next" style="padding-left: 1
     </template>
 
 
-    <!-- <p v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</p> -->
 
-    <img
-v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/'))"
-      :src="'https://www.tptest.sg' + (q?.question.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
-      style="width: 100%">
-    <!-- <el-card style="max-width: 700px; margin: auto"> -->
-
+    
     <el-text size="large">{{"Q" + (current_question + 1) + '.' + q?.question.filter((item) => typeof item
       === "string" &&
       !item.startsWith("/")).join("\n")}}</el-text>
+      <img
+  v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/'))"
+        :src="'https://www.tptest.sg' + (q?.question.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
+        style="width: 150px; margin: 0 auto">
 
 
 
@@ -641,7 +639,7 @@ style="cursor: pointer" :type="!show_answers[current_question] ? '' :
           <img
 v-if="o.some((item) => typeof item == 'string' && item.startsWith('/'))"
             :src="'https://www.tptest.sg' + (o.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
-            style="width: 100%">
+            style="width: 150px; margin: 0 auto">
         </el-col>
       </el-row>
     </div>
