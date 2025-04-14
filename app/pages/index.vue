@@ -631,7 +631,7 @@ border :span="14" @click="() => {
           }
         }">
           <el-text
-:type="!show_answers[current_question] ? '' :
+style="cursor: pointer" :type="!show_answers[current_question] ? '' :
             q?.answer_idx == idx ?
               'success' : user_answers[current_question] != q?.answer_idx ? 'danger' : ''">
             {{o.filter((item) => typeof item === "string" && !item.startsWith("/")).join("\n")}}
