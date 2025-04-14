@@ -593,14 +593,14 @@ v-model="_auto_next" size="large" active-text="Auto Next" style="padding-left: 1
 
 
 
-    
+
     <el-text size="large">{{"Q" + (current_question + 1) + '.' + q?.question.filter((item) => typeof item
       === "string" &&
       !item.startsWith("/")).join("\n")}}</el-text>
-      <img
-  v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/'))"
-        :src="'https://www.tptest.sg' + (q?.question.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
-        style="width: 150px; margin: 0 auto">
+    <img
+v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/'))"
+      :src="'https://www.tptest.sg' + (q?.question.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
+      style="width: 150px; margin: 0 auto">
 
 
 
@@ -667,7 +667,7 @@ v-if="!_auto_confirm" type="primary" style="margin: 0 auto"
       <el-button style="margin-top: 12px" @click="next">Next </el-button>
 
       <el-progress
-:percentage="100 * (current_question / questions.length)" :color="customColor" :format="format"
+:percentage="100 * (current_question + 1 / questions.length)" :color="customColor" :format="format"
         style="padding-top: 10px;max-width: 800px;margin: auto" />
 
     </template>
