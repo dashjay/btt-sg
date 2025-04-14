@@ -594,57 +594,58 @@ v-model="_auto_next" size="large" active-text="Auto Next" style="padding-left: 1
 
 
 
-    <el-text size="large">{{"Q" + (current_question + 1) + '.' + q?.question.filter((item) => typeof item
-      === "string" &&
-      !item.startsWith("/")).join("\n")}}</el-text>
-    <img
+    <div style="min-height: 350px;">
+      <el-text size="large">{{"Q" + (current_question + 1) + '.' + q?.question.filter((item) => typeof item
+        === "string" &&
+        !item.startsWith("/")).join("\n")}}</el-text>
+      <img
 v-if="q?.question.some((item) => typeof item == 'string' && item.startsWith('/'))"
-      :src="'https://www.tptest.sg' + (q?.question.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
-      style="width: 150px; margin: 0 auto">
+        :src="'https://www.tptest.sg' + (q?.question.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
+        style="width: 150px; margin: 0 auto">
 
 
 
-    <div v-for="(o, idx) in q?.answers" :key="idx" align="left" style="padding-top: 5px">
-      <el-row :gutter="24">
-        <el-col :span="5">
-          <el-radio
+      <div v-for="(o, idx) in q?.answers" :key="idx" align="left" style="padding-top: 5px;">
+        <el-row :gutter="24">
+          <el-col :span="5">
+            <el-radio
 v-model="user_answers[current_question]" border :disabled="show_answers[current_question]"
-            :value="idx" size="default" @change="() => {
-              if (_auto_confirm) {
-                confirm_answer(idx)
-              } else {
-                update_answer(idx)
-              }
-            }">{{
+              :value="idx" size="default" @change="() => {
+                if (_auto_confirm) {
+                  confirm_answer(idx)
+                } else {
+                  update_answer(idx)
+                }
+              }">{{
               options[idx]
-            }}
-          </el-radio>
-        </el-col>
-        <el-col
+              }}
+            </el-radio>
+          </el-col>
+          <el-col
 border :span="14" @click="() => {
-          if (_auto_confirm) {
-            confirm_answer(idx)
-          } else {
-            update_answer(idx)
-          }
-        }">
-          <el-text
+            if (_auto_confirm) {
+              confirm_answer(idx)
+            } else {
+              update_answer(idx)
+            }
+          }">
+            <el-text
 style="cursor: pointer" :type="!show_answers[current_question] ? '' :
-            q?.answer_idx == idx ?
-              'success' : user_answers[current_question] != q?.answer_idx ? 'danger' : ''">
-            {{o.filter((item) => typeof item === "string" && !item.startsWith("/")).join("\n")}}
-          </el-text>
-        </el-col>
-        <el-col :span="6">
-          <img
+              q?.answer_idx == idx ?
+                'success' : user_answers[current_question] != q?.answer_idx ? 'danger' : ''">
+              {{o.filter((item) => typeof item === "string" && !item.startsWith("/")).join("\n")}}
+            </el-text>
+          </el-col>
+          <el-col :span="6">
+            <img
 v-if="o.some((item) => typeof item == 'string' && item.startsWith('/'))"
-            :src="'https://www.tptest.sg' + (o.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
-            style="width: 150px; margin: 0 auto">
-        </el-col>
-      </el-row>
+              :src="'https://www.tptest.sg' + (o.filter((item) => typeof item == 'string' && item.startsWith('/'))[0])"
+              style="width: 150px; margin: 0 auto">
+          </el-col>
+        </el-row>
+      </div>
+
     </div>
-
-
     <template #footer>
       <el-col>
         <el-row>
