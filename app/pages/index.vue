@@ -667,7 +667,7 @@ v-if="!_auto_confirm" type="primary" style="margin: 0 auto"
       <el-button style="margin-top: 12px" @click="next">Next </el-button>
 
       <el-progress
-:percentage="100 * (current_question + 1 / questions.length)" :color="customColor" :format="format"
+:percentage="100 * ((current_question + 1) / questions.length)" :color="customColor" :format="format"
         style="padding-top: 10px;max-width: 800px;margin: auto" />
 
     </template>
