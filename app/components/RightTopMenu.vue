@@ -17,11 +17,13 @@
 import { QuestionFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
-const DarkToggleLabel = ref('')
-const GitHubLinkLabel = ref('')
-const PracticeLabel = ref('')
-const MockTestLabel = ref('')
-const LanguageLabel = ref('')
+
+const empty_str = "_.empty_str"
+const DarkToggleLabel = ref(empty_str)
+const GitHubLinkLabel = ref(empty_str)
+const PracticeLabel = ref(empty_str)
+const MockTestLabel = ref(empty_str)
+const LanguageLabel = ref(empty_str)
 
 
 
@@ -39,11 +41,11 @@ function showLabels() {
 }
 
 function hideLabels() {
-  DarkToggleLabel.value = "_.empty_str"
-  GitHubLinkLabel.value = "_.empty_str"
-  PracticeLabel.value = "_.empty_str"
-  MockTestLabel.value = "_.empty_str"
-  LanguageLabel.value = "_.empty_str"
+  DarkToggleLabel.value = empty_str
+  GitHubLinkLabel.value = empty_str
+  PracticeLabel.value = empty_str
+  MockTestLabel.value = empty_str
+  LanguageLabel.value = empty_str
 }
 
 </script>

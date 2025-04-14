@@ -2,8 +2,6 @@
 
 import { Paperclip } from '@element-plus/icons-vue'
 
-import { defineProps } from 'vue';
-
 interface Props {
   label?: string;
 }

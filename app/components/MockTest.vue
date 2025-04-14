@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
 import { Select } from '@element-plus/icons-vue'
-import { defineProps } from 'vue';
 
 interface Props {
   label?: string;

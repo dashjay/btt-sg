@@ -574,7 +574,7 @@ const options = ['A.', 'B.', 'C.', 'D.']
 <template>
 
 
-  <el-card style="max-width: 700px" shadow="never" class="el-card-global">
+  <el-card style="max-width: 700px;margin: 0 auto" shadow="never" class="el-card-global">
     <template #header>
       <Description />
       <el-row :gutter="20">
