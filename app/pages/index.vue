@@ -459,17 +459,59 @@ const auto_next = () => {
 const last = () => {
   if (current_question.value > 0) {
     current_question.value -= 1
-    console.log(`current question: ${current_question.value}`)
+    console.log(`current question: ${current_question.value + 1}`)
   }
 }
 
 const next = () => {
   if (current_question.value < questions.length - 1) {
     current_question.value += 1
-    console.log(`current question: ${current_question.value}`)
+    console.log(`current question: ${current_question.value + 1}`)
   }
 }
 
+function str_truncated(input: string, max_length: number) {
+  if (input.length > max_length) {
+    return input.substring(0, max_length - 3) + "..."
+  }
+  return input
+}
+
+function finish_and_show_answer() {
+
+
+}
+const finish = () => {
+
+  if (is_all_question_answered()) {
+    finish_and_show_answer()
+    return
+  }
+
+  const first_unfinished = Number(get_unfinished_questions()[0])
+  ElMessageBox({
+    title: `Unfinished Warning`,
+    message: `Not all questions answered, do you want to answer them [${str_truncated(get_unfinished_questions().toString(), 24)}]? or still finish it`,
+    showCancelButton: true,
+    cancelButtonText: 'Back to ' + first_unfinished,
+    confirmButtonText: 'Still Finish',
+  }).then(() => {
+    finish_and_show_answer()
+
+  }).catch(() => {
+    current_question.value = first_unfinished - 1
+  })
+}
+
+function get_unfinished_questions() {
+  const unfinished_questions = []
+  for (let i = 0; i < questions.length; i++) {
+    if (user_answers.value[i] == -1) {
+      unfinished_questions.push(i + 1)
+    }
+  }
+  return unfinished_questions
+}
 
 const user_answers = ref<number[]>([])
 
@@ -550,6 +592,15 @@ function confirm_answer(answer: number | null) {
   })
 }
 
+function is_all_question_answered() {
+  for (let i = 0; i < user_answers.value.length; i++) {
+    if (user_answers.value[i] == -1) {
+      return false
+    }
+  }
+  return true
+}
+
 
 onMounted(() => {
   for (let i = 0; i < questions.length; i++) {
@@ -617,7 +668,7 @@ v-model="user_answers[current_question]" border :disabled="show_answers[current_
                   update_answer(idx)
                 }
               }">{{
-              options[idx]
+                options[idx]
               }}
             </el-radio>
           </el-col>
@@ -662,23 +713,21 @@ v-if="!_auto_confirm" type="primary" style="margin: 0 auto"
       </el-col>
 
 
-
-
       <el-button style="margin-top: 12px" @click="last">Prev</el-button>
-      <el-button style="margin-top: 12px" @click="next">Next </el-button>
+      <el-button v-show="current_question != questions.length - 1" style="margin-top: 12px" @click="next">Next
+      </el-button>
+      <el-button
+v-show="current_question == questions.length - 1" style="margin-top: 12px"
+        :type="is_all_question_answered() ? 'success' : 'warning'" @click="finish">Finish
+      </el-button>
 
       <el-progress
 :percentage="100 * ((current_question + 1) / questions.length)" :color="customColor" :format="format"
-        style="padding-top: 10px;max-width: 800px;margin: auto" />
+        style="padding-top: 10px; max-width: 800px; margin: auto" />
 
     </template>
 
   </el-card>
-
-
-
-
-
 
 </template>
 
